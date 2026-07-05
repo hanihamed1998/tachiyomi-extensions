@@ -9,6 +9,7 @@ import eu.kanade.tachiyomi.source.model.SManga
 import eu.kanade.tachiyomi.source.online.HttpSource
 import eu.kanade.tachiyomi.util.asJsoup
 import keiyoushi.annotation.Source
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Request
 import okhttp3.Response
 
@@ -47,10 +48,15 @@ open class NeverScans : HttpSource() {
 
     override fun latestUpdatesParse(response: Response): MangasPage = popularMangaParse(response)
 
-    override fun searchMangaRequest(page: Int, query: String, filters: FilterList): Request = if (query.isNotBlank()) {
-        GET("$baseUrl/manga?search=$query", headers)
-    } else {
-        GET("$baseUrl/manga", headers)
+    override fun searchMangaRequest(page: Int, query: String, filters: FilterList): Request {
+        return if (query.isNotBlank()) {
+            val url = "$baseUrl/manga".toHttpUrl().newBuilder()
+                .addQueryParameter("search", query)
+                .build()
+            GET(url, headers)
+        } else {
+            GET("$baseUrl/manga", headers)
+        }
     }
 
     override fun searchMangaParse(response: Response): MangasPage = popularMangaParse(response)
@@ -63,7 +69,7 @@ open class NeverScans : HttpSource() {
         val scriptPattern = Regex("""<script[^>]*>(.*?)</script>""", RegexOption.DOT_MATCHES_ALL)
         val namePattern = Regex(""""name"\s*:\s*"([^"]+)"""")
         val descPattern = Regex(""""description"\s*:\s*"([^"]+)"""")
-        val imgPattern = Regex(""""image"\s*:\s*"([^"]+)" """)
+        val imgPattern = Regex(""""image"\s*:\s*"([^"]+)"""")
 
         var title = ""
         var description = ""
@@ -100,7 +106,7 @@ open class NeverScans : HttpSource() {
         val scriptPattern = Regex("""<script[^>]*>(.*?)</script>""", RegexOption.DOT_MATCHES_ALL)
         val itemPattern = Regex(""""itemListElement"\s*:\s*\[(.*?)\]""", RegexOption.DOT_MATCHES_ALL)
         val itemEntryPattern = Regex(
-            """"url"\s*:\s*"([^"]+)"\s*,\s*"name"\s*:\s*"([^"]+)"""",
+            Target = """"url"\s*:\s*"([^"]+)"\s*,\s*"name"\s*:\s*"([^"]+)"""",
         )
 
         for (match in scriptPattern.findAll(html)) {
@@ -128,7 +134,7 @@ open class NeverScans : HttpSource() {
         val path = url.substringAfterLast("/")
         val numStr = path
             .removePrefix("chapter-")
-            .replace(".0", "")
+            .removeSuffix(".0")
         return numStr.toFloatOrNull() ?: 0f
     }
 
