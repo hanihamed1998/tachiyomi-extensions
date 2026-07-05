@@ -74,7 +74,7 @@ open class HentaiMan : HttpSource() {
     override fun mangaDetailsParse(response: Response): SManga {
         val doc = response.asJsoup()
         return SManga.create().apply {
-            title = doc.selectFirst("h1")?.text()?.trim()!!
+            title = doc.selectFirst("h1")?.text()?.trim() ?: ""
             thumbnail_url = doc.selectFirst("img[src*=storage/covers/lg], img[src*=storage/covers/md]")
                 ?.attr("abs:src")
             description = doc.select("[aria-label=Alternative Title]").text().trim().ifEmpty {
