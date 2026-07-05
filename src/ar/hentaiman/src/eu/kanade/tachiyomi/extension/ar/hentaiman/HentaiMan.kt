@@ -104,7 +104,7 @@ open class HentaiMan : HttpSource() {
             val chapterName = link.selectFirst("span:not([class])")?.text()?.trim() ?: ""
             SChapter.create().apply {
                 setUrlWithoutDomain(href)
-                name = "الفصل ${chapterNum?.toInt() ?: "?"} - $chapterName"
+                name = "الفصل ${chapterNum?.toString()?.removeSuffix(".0") ?: "?"} - $chapterName"
                 chapter_number = chapterNum ?: 0f
                 date_upload = dateFormat.tryParse(
                     link.selectFirst("p.text-gray-400")?.text()?.trim(),
