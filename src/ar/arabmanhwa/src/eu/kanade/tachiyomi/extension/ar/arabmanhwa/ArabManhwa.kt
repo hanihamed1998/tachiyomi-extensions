@@ -32,8 +32,6 @@ class ArabManhwa : Madara("ArabManhwa", "https://arabmanhwa.com", "ar") {
             .build(),
     )
 
-    private inline fun <reified T> Response.parseAs(): T = json.decodeFromString(body.string())
-
     @Serializable
     data class SearchResponseDto(
         val data: List<SearchEntryDto>,
