@@ -7,7 +7,7 @@ import eu.kanade.tachiyomi.source.model.MangasPage
 import eu.kanade.tachiyomi.source.model.SManga
 import keiyoushi.annotation.Source
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
+import keiyoushi.utils.parseAs
 import okhttp3.FormBody
 import okhttp3.Request
 import okhttp3.Response
