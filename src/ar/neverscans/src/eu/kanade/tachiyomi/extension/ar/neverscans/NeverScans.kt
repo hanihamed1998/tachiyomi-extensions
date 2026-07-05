@@ -138,7 +138,7 @@ open class NeverScans : HttpSource() {
         val doc = response.asJsoup()
         val html = doc.outerHtml()
 
-        val rscPattern = Regex("""id:"([a-f0-9-]+)",index:(\d+),imageUrl:"(/api/public/page/[a-f0-9-]+)"""")
+        val rscPattern = Regex("\"\"\"id:\\s*\"([a-f0-9-]+)\"\\s*,\\s*index:\\s*(\\d+)\\s*,\\s*imageUrl:\\s*\"(/api/public/page/[a-f0-9-]+)\"\"\"")
         val rscMatches = rscPattern.findAll(html).toList()
         if (rscMatches.isNotEmpty()) {
             return rscMatches.map { match ->
