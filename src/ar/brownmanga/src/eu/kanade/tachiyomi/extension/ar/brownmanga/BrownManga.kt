@@ -121,7 +121,7 @@ open class BrownManga : HttpSource() {
         SChapter.create().apply {
             url = ch.id
             name = ch.title?.ifEmpty { null }
-                ?: "الفصل ${ch.chapterNumber?.toInt() ?: 0}"
+                ?: "الفصل ${ch.chapterNumber?.toString()?.removeSuffix(".0") ?: "0"}"
             chapter_number = ch.chapterNumber?.toFloat() ?: 0f
         }
     }
@@ -136,9 +136,11 @@ open class BrownManga : HttpSource() {
         return apiQuery(body)
     }
 
-    override fun pageListParse(response: Response): List<Page> = response.parseAs<List<ChapterPageDto>>().mapIndexed { index, page ->
-        Page(index, imageUrl = page.imageUrl ?: "")
-    }
+    override fun pageListParse(response: Response): List<Page> = response.parseAs<List<ChapterPageDto>>()
+        .filter { !it.imageUrl.isNullOrBlank() }
+        .mapIndexed { index, page ->
+            Page(index, imageUrl = page.imageUrl!!)
+        }
 
     override fun imageUrlParse(response: Response): String = throw UnsupportedOperationException()
 
