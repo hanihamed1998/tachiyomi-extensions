@@ -106,7 +106,7 @@ open class NeverScans : HttpSource() {
         val scriptPattern = Regex("""<script[^>]*>(.*?)</script>""", RegexOption.DOT_MATCHES_ALL)
         val itemPattern = Regex(""""itemListElement"\s*:\s*\[(.*?)\]""", RegexOption.DOT_MATCHES_ALL)
         val itemEntryPattern = Regex(
-            Target = """"url"\s*:\s*"([^"]+)"\s*,\s*"name"\s*:\s*"([^"]+)"""",
+            """"url"\s*:\s*"([^"]+)"\s*,\s*"name"\s*:\s*"([^"]+)"""",
         )
 
         for (match in scriptPattern.findAll(html)) {
