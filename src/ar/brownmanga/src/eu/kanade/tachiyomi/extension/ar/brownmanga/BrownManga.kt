@@ -101,7 +101,8 @@ open class BrownManga : HttpSource() {
         return apiQuery(body)
     }
 
-    override fun mangaDetailsParse(response: Response): SManga = response.parseAs<List<ManhwaDto>>().first().toSManga()
+    override fun mangaDetailsParse(response: Response): SManga = response.parseAs<List<ManhwaDto>>().firstOrNull()?.toSManga()
+        ?: throw Exception("Manga not found")
 
     override fun chapterListRequest(manga: SManga): Request {
         val body = QueryBody(
