@@ -131,7 +131,7 @@ open class NeverScans : HttpSource() {
     }
 
     private fun parseChapterNumber(url: String): Float {
-        val path = url.substringAfterLast("/")
+        val path = url.trimEnd('/').substringAfterLast("/")
         val numStr = path
             .removePrefix("chapter-")
             .removeSuffix(".0")
