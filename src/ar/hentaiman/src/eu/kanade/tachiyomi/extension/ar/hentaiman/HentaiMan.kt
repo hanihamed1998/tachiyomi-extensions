@@ -106,9 +106,11 @@ open class HentaiMan : HttpSource() {
                 setUrlWithoutDomain(href)
                 name = "الفصل ${chapterNum?.toString()?.removeSuffix(".0") ?: "?"} - $chapterName"
                 chapter_number = chapterNum ?: 0f
-                date_upload = dateFormat.tryParse(
-                    link.selectFirst("p.text-gray-400")?.text()?.trim(),
-                )
+                date_upload = synchronized(dateFormat) {
+                    dateFormat.tryParse(
+                        link.selectFirst("p.text-gray-400")?.text()?.trim(),
+                    )
+                }
             }
         }.sortedByDescending { it.chapter_number }.distinctBy { it.url }
     }
