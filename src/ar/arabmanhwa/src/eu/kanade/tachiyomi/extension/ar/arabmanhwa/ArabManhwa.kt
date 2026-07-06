@@ -34,7 +34,7 @@ class ArabManhwa : Madara("ArabManhwa", "https://arabmanhwa.com", "ar") {
 
     @Serializable
     data class SearchResponseDto(
-        val data: List<SearchEntryDto>,
+        val data: List<SearchEntryDto> = emptyList(),
         val success: Boolean,
     )
 
