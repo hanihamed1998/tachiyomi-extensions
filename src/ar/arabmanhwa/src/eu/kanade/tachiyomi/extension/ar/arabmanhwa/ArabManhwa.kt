@@ -21,7 +21,7 @@ class ArabManhwa : Madara("ArabManhwa", "https://arabmanhwa.com", "ar") {
 
     override fun latestUpdatesSelector() = popularMangaSelector()
 
-    override fun popularMangaNextPageSelector(): String = "div.nav-previous, nav.navigation-ajax, a.nextpostslink, wp-pagenavi .next"
+    override fun popularMangaNextPageSelector(): String = "div.nav-previous, nav.navigation-ajax, a.nextpostslink, .wp-pagenavi .next"
 
     override fun searchMangaRequest(page: Int, query: String, filters: FilterList): Request = POST(
         "$baseUrl/wp-admin/admin-ajax.php",
