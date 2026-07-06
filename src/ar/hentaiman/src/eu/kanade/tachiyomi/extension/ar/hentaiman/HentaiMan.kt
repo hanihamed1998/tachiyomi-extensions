@@ -77,7 +77,7 @@ open class HentaiMan : HttpSource() {
             title = doc.selectFirst("h1")?.text()?.trim() ?: ""
             thumbnail_url = doc.selectFirst("img[src*=storage/covers/lg], img[src*=storage/covers/md]")
                 ?.attr("abs:src")
-            description = doc.select("[aria-label=Alternative Title]").text().trim().ifEmpty {
+            description = doc.select("[aria-label=\"Alternative Title\"]").text().trim().ifEmpty {
                 doc.selectFirst("dl dd")?.text()?.trim()
             }
             genre = doc.select("a[href*=list/genre]").joinToString { it.text().trim() }
